@@ -22,9 +22,9 @@ local match_many = function(str, ...)
   return false
 end
 
-local minute_matches = { "minutes", "minute", "mins", "min", "m" }
-local second_matches = { "seconds", "second", "secs", "sec", "s" }
-local hour_matches = { "hours", "hour", "h" }
+local minute_matches = { "minute", "min", "m" }
+local second_matches = { "second", "sec", "s" }
+local hour_matches = { "hour", "h" }
 
 -- given a string of the format '<time><[m|min|minute]|[s|sec|second]|[h|hour]>'
 -- this function returns the time in milliseconds, if no match was found it assumes the string is the number in minutes
@@ -33,10 +33,10 @@ M.parse = function(str)
     local matched, match = match_many(str, tab)
     if matched then
       local tmp = str:gsub(match, "")
-      return factor * tonumber(tmp)
+      return factor * tonumber(tmp), match
     end
   end
-  return tonumber(str) * 60000
+  return tonumber(str) * 60000, nil
 end
 
 return M

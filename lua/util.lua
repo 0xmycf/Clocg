@@ -31,4 +31,19 @@ function M.reduce(list, fn, acc)
   return acc
 end
 
+-- bad name: works on the full list not on the tail
+-- returns nil if the rest of the args concat to ""
+function M.tail_to_string(list)
+  local tail = M.tail(list)
+  local name = M.reduce(tail,
+    function(v, acc, i)
+      if i == #tail then
+        return acc .. tostring(v)
+      end
+      return acc .. tostring(v) .. " "
+    end, "")
+  if name == "" then name = nil end
+  return name
+end
+
 return M

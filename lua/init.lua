@@ -13,16 +13,9 @@ end
 
 -- TODO add log message
 function M.till(args)
-  vim.print(vim.inspect(args.fargs))
-  local num = parse.parse(args.fargs[1])
-  local tail = util.tail(args.fargs)
-  local name = util.reduce(tail, function(v, acc, i)
-    if i == #tail then
-      return acc .. tostring(v)
-    end
-    return acc .. tostring(v) .. " "
-  end, "")
-  local timer, timestamp = t.new_timer(name)
+  local num, unit = parse.parse(args.fargs[1])
+  local name = util.tail_to_string(args.fargs)
+  local timer, timestamp = t.new_timer(name, unit)
   timer:start(num, 0, function()
     util.mk_popup("Time's up!")
     t.end_timer(timestamp)
@@ -30,7 +23,21 @@ function M.till(args)
 end
 
 function M.show(_)
-  vim.print(vim.inspect(t.all_timers()))
+  vim.print(vim.inspect(t.tbl_of_timers()))
+end
+
+function M.stop(args)
+  local stamp = args.fargs[1]
+  local name = util.tail_to_string(args.fargs)
+  if not name then
+    t.end_timer(stamp)
+  else
+    t.end_timer(stamp .. " " .. name)
+  end
+end
+
+function M.stop_all(_)
+  t.end_all()
 end
 
 return M
