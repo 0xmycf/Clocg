@@ -40,4 +40,12 @@ function M.stop_all(_)
   t.end_all()
 end
 
+function M.pause(args)
+  t.pause(args.fargs[1])
+end
+
+function M.resume(args)
+  t.resume(args.fargs[1])
+end
+
 return M

@@ -36,7 +36,7 @@ M.parse = function(str)
       return factor * tonumber(tmp), match
     end
   end
-  return tonumber(str) * 60000, nil
+  return tonumber(str) * 60000, "m"
 end
 
 return M
